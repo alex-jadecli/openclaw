@@ -41,3 +41,20 @@ All PRs should target this fork's `main` branch (`alex-jadecli/openclaw`).
 - Formatting/linting via Oxlint and Oxfmt; run `pnpm check` before commits.
 - Keep files under ~500 LOC when feasible.
 - Use oxlint/oxfmt conventions (no Prettier/ESLint).
+
+## PR Workflow & Follow-Up Chaining
+
+When creating a PR, always populate the **Follow-Up PR Ideas** section in the PR
+template (`.github/pull_request_template.md`). List concrete next-step PRs that
+build on the current work — things you noticed while coding but that are out of
+scope for this PR.
+
+After merging, append those ideas to `FOLLOW_UP_PRS.md` in the repo root so they
+are tracked across sessions. Format:
+
+```
+- [ ] **Idea title** — short description (source: #PR_NUMBER)
+```
+
+To pick up a follow-up idea in a new Claude Code session, read `FOLLOW_UP_PRS.md`,
+choose an item, and use it as the starting prompt. Check off completed items.
