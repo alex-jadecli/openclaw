@@ -1,0 +1,17 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-keybindings.json",
+  "bindings": [
+    {
+      "context": "Chat",
+      "bindings": {
+{{- if eq .chezmoi.os "darwin" }}
+        "cmd+e": "chat:externalEditor",
+        "cmd+k": "chat:clear"
+{{- else }}
+        "ctrl+e": "chat:externalEditor",
+        "ctrl+k": "chat:clear"
+{{- end }}
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{{- /* chezmoi config — generated on `chezmoi init` */ -}}
+[data]
+    github_user = {{ promptStringOnce . "github_user" "GitHub username" | quote }}
+    github_org = {{ promptStringOnce . "github_org" "GitHub organization" | quote }}
+    full_name = {{ promptStringOnce . "full_name" "Full name" | quote }}
+    email_personal = {{ promptStringOnce . "email_personal" "Personal email" | quote }}
+    email_org = {{ promptStringOnce . "email_org" "Organization email (leave blank to skip)" | quote }}

@@ -1,0 +1,55 @@
+#!/bin/bash
+set -euo pipefail
+
+# ── Install Node.js {{ .node_major }} if missing ────────────────────────────
+if ! command -v node &>/dev/null || [[ "$(node -v | cut -d. -f1 | tr -d v)" -lt {{ .node_major }} ]]; then
+{{- if eq .chezmoi.os "darwin" }}
+  if command -v brew &>/dev/null; then
+    brew install node@{{ .node_major }}
+  else
+    echo "Install Homebrew first: https://brew.sh" >&2
+    exit 1
+  fi
+{{- else if eq .chezmoi.os "linux" }}
+  {{- if .chezmoi.kernel.osrelease | lower | contains "microsoft" }}
+  # WSL2 — use NodeSource
+  curl -fsSL https://deb.nodesource.com/setup_{{ .node_major }}.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+  {{- else }}
+  # Native Linux — use NodeSource
+  curl -fsSL https://deb.nodesource.com/setup_{{ .node_major }}.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+  {{- end }}
+{{- else if eq .chezmoi.os "windows" }}
+  echo "Install Node.js {{ .node_major }}+ from https://nodejs.org" >&2
+  exit 1
+{{- end }}
+fi
+
+# ── Install pnpm if missing ─────────────────────────────────────────────────
+if ! command -v pnpm &>/dev/null; then
+  npm install -g pnpm@{{ .pnpm_major }}
+fi
+
+# ── Install Claude Code CLI if missing ───────────────────────────────────────
+if ! command -v claude &>/dev/null; then
+  npm install -g @anthropic-ai/claude-code
+fi
+
+# ── Install gh CLI if missing ────────────────────────────────────────────────
+if ! command -v gh &>/dev/null; then
+{{- if eq .chezmoi.os "darwin" }}
+  brew install gh
+{{- else if eq .chezmoi.os "linux" }}
+  (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+    && sudo mkdir -p -m 755 /etc/apt/keyrings \
+    && out=$(mktemp) && wget -nv -O"$out" https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+    && cat "$out" | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+    && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+    && sudo apt update \
+    && sudo apt install gh -y
+{{- end }}
+fi
+
+echo "Bootstrap complete: node $(node -v), pnpm $(pnpm -v), claude $(claude --version 2>/dev/null || echo 'not found'), gh $(gh --version | head -1)"
