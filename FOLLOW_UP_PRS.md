@@ -16,3 +16,5 @@ originating PR so context is never lost.
 <!-- Append new entries below this line. Format:
 - [ ] **Idea title** — short description (source: #PR_NUMBER)
 -->
+
+- [ ] **Dedicated openclaw user setup scripts for macOS and WSL2** — Create a reproducible setup guide and/or script for bootstrapping a dedicated `openclaw` user on (1) macOS (MacBook) and (2) Windows 11 with WSL2 Ubuntu 26.04. Should cover: creating the local user account, installing Node 22+, pnpm, Claude Code CLI, cloning the repo, configuring Claude auth, and any OS-specific quirks (macOS `sysadminctl`/`dscl` vs WSL2 `adduser`, shell profile, SSH keys, permissions). Goal: a new Claude Code session can pick this up and walk the user through the full setup interactively. (source: PR from `claude/release-template-followup-ideas-z7Wub`)
