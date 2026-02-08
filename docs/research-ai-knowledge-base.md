@@ -73,14 +73,31 @@ releases by keyword, vendor, date, or semantic similarity during development ses
 | ----------------- | ------------------------------------------------------------- |
 | `wshobson/agents` | 112 agents, 73 plugins — our agent marketplace, track updates |
 
+### Data & infrastructure services
+
+| Repo                            | Why                                                       |
+| ------------------------------- | --------------------------------------------------------- |
+| `mongodb-js/mongodb-mcp-server` | MCP server for MongoDB — AI-assisted queries              |
+| `mongodb/node-mongodb-native`   | Official Node.js driver — our MongoDB client              |
+| `neondatabase/neon`             | Serverless Postgres engine — our Neon backend             |
+| `neondatabase/serverless`       | Serverless Postgres driver — our pgvector queries         |
+| `redis/ioredis`                 | Redis client — our hot cache layer                        |
+| `redis/node-redis`              | Official Redis client — alternative to ioredis            |
+| `ollama/ollama`                 | Local model runner — our LOCAL env inference backend      |
+| `ollama/ollama-js`              | Ollama JS client — local model API calls                  |
+| `docker/mcp-registry`           | Docker MCP registry — AI-assisted container management    |
+| `docker/mcp-gateway`            | Docker MCP gateway — container orchestration via AI       |
+| `PrefectHQ/prefect`             | Workflow orchestration — our ingestion pipeline engine    |
+| `PrefectHQ/marvin`              | AI engineering framework — Prefect's AI integration       |
+| `apache/airflow`                | Alternative orchestration — DAG-based pipeline scheduling |
+
 ### Toolchain
 
-| Repo             | Why                                                  |
-| ---------------- | ---------------------------------------------------- |
-| `astral-sh/uv`   | Python package manager — our Python toolchain        |
-| `astral-sh/ruff` | Python linter/formatter — our Python quality tool    |
-| `astral-sh/ty`   | Python type checker — our Python type checking       |
-| `ollama/ollama`  | Local model runner — our LOCAL env inference backend |
+| Repo             | Why                                               |
+| ---------------- | ------------------------------------------------- |
+| `astral-sh/uv`   | Python package manager — our Python toolchain     |
+| `astral-sh/ruff` | Python linter/formatter — our Python quality tool |
+| `astral-sh/ty`   | Python type checker — our Python type checking    |
 
 ---
 
@@ -544,6 +561,130 @@ const tools = [
 
 ---
 
+## Data & Docker Tooling Vendors
+
+GitHub organizations, key repositories, and package registries for all data and
+infrastructure services used by openclaw.
+
+### MongoDB
+
+| Field                  | Value                                                                                                    |
+| ---------------------- | -------------------------------------------------------------------------------------------------------- |
+| **GitHub org**         | [`mongodb`](https://github.com/mongodb) — core server & tools                                            |
+|                        | [`mongodb-js`](https://github.com/mongodb-js) — JS/TS ecosystem                                          |
+| **Key repos**          | `mongodb/mongo` — database server                                                                        |
+|                        | `mongodb-js/mongodb-mcp-server` — MCP server for Claude/AI                                               |
+|                        | `mongodb/node-mongodb-native` — official Node.js driver                                                  |
+|                        | `mongodb/chatbot` — MongoDB AI chatbot framework                                                         |
+| **npm org**            | [`@mongodb-js`](https://www.npmjs.com/org/mongodb-js)                                                    |
+| **Key npm pkgs**       | `mongodb` — official Node.js driver                                                                      |
+|                        | `mongodb-mcp-server` — MCP server for AI assistants                                                      |
+|                        | `mongoose` — ODM (community, not official org)                                                           |
+| **Claude integration** | MCP server (`mongodb-mcp-server`) for natural-language queries, schema inspection, aggregation pipelines |
+
+### Neon
+
+| Field                  | Value                                                                      |
+| ---------------------- | -------------------------------------------------------------------------- |
+| **GitHub org**         | [`neondatabase`](https://github.com/neondatabase)                          |
+| **Key repos**          | `neondatabase/neon` — serverless Postgres storage engine                   |
+|                        | `neondatabase/serverless` — low-latency serverless driver                  |
+|                        | `neondatabase/neonctl` — CLI tool                                          |
+|                        | `neondatabase/neon-mcp-server` — MCP server for AI assistants              |
+| **npm org**            | [`@neondatabase`](https://www.npmjs.com/org/neondatabase)                  |
+| **Key npm pkgs**       | `@neondatabase/serverless` — serverless Postgres driver (HTTP + WebSocket) |
+|                        | `neonctl` — CLI for project/branch management                              |
+| **Claude integration** | MCP server, serverless driver with pgvector for embeddings                 |
+
+### Redis
+
+| Field                  | Value                                                         |
+| ---------------------- | ------------------------------------------------------------- |
+| **GitHub org**         | [`redis`](https://github.com/redis) — 67+ repos               |
+| **Key repos**          | `redis/redis` — database server                               |
+|                        | `redis/ioredis` — high-performance Node.js client             |
+|                        | `redis/node-redis` — official Node.js client                  |
+|                        | `redis/redis-om-node` — object mapping for Node.js            |
+| **npm org**            | [`@redis`](https://www.npmjs.com/org/redis)                   |
+| **Key npm pkgs**       | `ioredis` v9+ — feature-rich Redis client (Cluster, Sentinel) |
+|                        | `redis` v5+ — official client (recommended for new projects)  |
+|                        | `@redis/client` — core client module                          |
+| **Claude integration** | Redis MCP server for cache/pub-sub management via AI          |
+
+### Ollama
+
+| Field                  | Value                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------------ |
+| **GitHub org**         | [`ollama`](https://github.com/ollama) — 3 repos                                                        |
+| **Key repos**          | `ollama/ollama` — local model runner (162k+ stars)                                                     |
+|                        | `ollama/ollama-js` — official JavaScript client library                                                |
+|                        | `ollama/ollama-python` — official Python client library                                                |
+| **npm org**            | N/A (published as standalone package)                                                                  |
+| **Key npm pkgs**       | `ollama` v0.6+ — JS client for Ollama API                                                              |
+| **PyPI pkgs**          | `ollama` — Python client for Ollama API                                                                |
+| **Claude integration** | Anthropic Messages API compatibility (`ANTHROPIC_BASE_URL=http://localhost:11434`) for local inference |
+
+### Docker
+
+| Field                  | Value                                                                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **GitHub org**         | [`docker`](https://github.com/docker)                                                                                               |
+| **Key repos**          | `docker/docs` — official documentation                                                                                              |
+|                        | `docker/cagent` — AI agent for Docker operations                                                                                    |
+|                        | `docker/mcp-registry` — MCP server registry                                                                                         |
+|                        | `docker/mcp-gateway` — MCP gateway                                                                                                  |
+|                        | `docker/compose` — Docker Compose                                                                                                   |
+|                        | `docker/cli` — Docker CLI                                                                                                           |
+| **npm org**            | N/A (community packages)                                                                                                            |
+| **Key npm pkgs**       | `dockerode` v4+ — Docker Remote API client for Node.js                                                                              |
+| **Claude integration** | Docker MCP Catalog & Toolkit (https://docs.docker.com/ai/mcp-catalog-and-toolkit/toolkit/), Docker Model Runner for local inference |
+
+### Prefect
+
+| Field                  | Value                                                         |
+| ---------------------- | ------------------------------------------------------------- |
+| **GitHub org**         | [`PrefectHQ`](https://github.com/PrefectHQ) — 115+ repos      |
+| **Key repos**          | `PrefectHQ/prefect` — workflow orchestration engine           |
+|                        | `PrefectHQ/prefect-ui-library` — UI component library         |
+|                        | `PrefectHQ/marvin` — AI engineering framework                 |
+|                        | `PrefectHQ/prefect-dbt` — dbt integration                     |
+| **npm org**            | N/A (Python-first ecosystem)                                  |
+| **Key npm pkgs**       | `prefect-ui-library` — Vue-based UI components (internal use) |
+| **PyPI pkgs**          | `prefect` v3.6+ — core orchestration library                  |
+|                        | `prefect-dbt`, `prefect-aws`, `prefect-gcp` — integrations    |
+| **Claude integration** | Prefect MCP server, AI-assisted flow authoring via Marvin     |
+
+### Apache Airflow
+
+| Field                  | Value                                                             |
+| ---------------------- | ----------------------------------------------------------------- |
+| **GitHub org**         | [`apache`](https://github.com/apache) (project within Apache)     |
+| **Key repos**          | `apache/airflow` — workflow orchestration platform                |
+|                        | `apache/airflow-client-python` — Python API client                |
+| **npm org**            | N/A (Python-only ecosystem)                                       |
+| **Key npm pkgs**       | None — Airflow is entirely Python-based                           |
+| **PyPI pkgs**          | `apache-airflow` — core platform                                  |
+|                        | 90+ provider packages (`apache-airflow-providers-*`)              |
+|                        | `apache-airflow-providers-docker` — Docker operator               |
+|                        | `apache-airflow-providers-mongo` — MongoDB hooks/operators        |
+|                        | `apache-airflow-providers-postgres` — Postgres hooks/operators    |
+|                        | `apache-airflow-providers-redis` — Redis hooks/operators          |
+| **Claude integration** | MCP server or AI-assisted DAG generation (via custom integration) |
+
+### Vendor summary
+
+| Vendor  | GitHub org               | Primary ecosystem | MCP server available       | Key package                |
+| ------- | ------------------------ | ----------------- | -------------------------- | -------------------------- |
+| MongoDB | `mongodb` / `mongodb-js` | npm + PyPI        | Yes (`mongodb-mcp-server`) | `mongodb`                  |
+| Neon    | `neondatabase`           | npm               | Yes                        | `@neondatabase/serverless` |
+| Redis   | `redis`                  | npm               | Yes                        | `ioredis` / `redis`        |
+| Ollama  | `ollama`                 | npm + PyPI        | Via Messages API           | `ollama`                   |
+| Docker  | `docker`                 | npm (community)   | Yes (MCP Catalog)          | `dockerode`                |
+| Prefect | `PrefectHQ`              | PyPI              | Yes                        | `prefect`                  |
+| Airflow | `apache`                 | PyPI              | Custom                     | `apache-airflow`           |
+
+---
+
 ## References
 
 ### Blog sources
@@ -573,3 +714,39 @@ const tools = [
 - https://github.com/astral-sh/ruff
 - https://github.com/astral-sh/ty
 - https://github.com/ollama/ollama
+- https://github.com/ollama/ollama-js
+- https://github.com/mongodb-js/mongodb-mcp-server
+- https://github.com/mongodb/node-mongodb-native
+- https://github.com/neondatabase/neon
+- https://github.com/neondatabase/serverless
+- https://github.com/redis/ioredis
+- https://github.com/redis/node-redis
+- https://github.com/docker/mcp-registry
+- https://github.com/docker/mcp-gateway
+- https://github.com/PrefectHQ/prefect
+- https://github.com/PrefectHQ/marvin
+- https://github.com/apache/airflow
+
+### Vendor GitHub organizations
+
+- https://github.com/mongodb
+- https://github.com/mongodb-js
+- https://github.com/neondatabase
+- https://github.com/redis
+- https://github.com/ollama
+- https://github.com/docker
+- https://github.com/PrefectHQ
+- https://github.com/apache (Airflow project)
+
+### npm / PyPI packages
+
+- https://www.npmjs.com/package/mongodb
+- https://www.npmjs.com/package/mongodb-mcp-server
+- https://www.npmjs.com/package/@neondatabase/serverless
+- https://www.npmjs.com/package/ioredis
+- https://www.npmjs.com/package/redis
+- https://www.npmjs.com/package/ollama
+- https://www.npmjs.com/package/dockerode
+- https://pypi.org/project/prefect/
+- https://pypi.org/project/apache-airflow/
+- https://pypi.org/project/ollama/
