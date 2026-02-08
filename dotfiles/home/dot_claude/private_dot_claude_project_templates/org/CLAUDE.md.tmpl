@@ -1,0 +1,24 @@
+{{- /* Organization CLAUDE.md — copy into jadecli org repos */ -}}
+# {{ .github_org }} Organization Project
+
+## PR Guidelines
+
+- All PRs target `main` on this repository
+- Use descriptive PR titles (< 70 chars)
+- Reference issue numbers in PR descriptions
+- Run `pnpm check` before requesting review
+
+## Build & Development
+
+- Install: `pnpm install`
+- Build: `pnpm build`
+- Test: `pnpm test`
+- Lint: `pnpm lint`
+- Format: `pnpm format`
+- All checks: `pnpm check`
+
+## Code Style
+
+- TypeScript, ESM modules, strict typing
+- No `any` — use proper types
+- Run the full check suite before committing
