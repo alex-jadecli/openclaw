@@ -1,0 +1,20 @@
+# Always ignore
+README.md
+LICENSE
+.git
+
+# macOS-only files — skip on non-darwin
+{{ if ne .chezmoi.os "darwin" }}
+.claude/macos-*
+Library/
+{{ end }}
+
+# Linux-only files — skip on non-linux
+{{ if ne .chezmoi.os "linux" }}
+.claude/linux-*
+{{ end }}
+
+# Windows-only files — skip on non-windows
+{{ if ne .chezmoi.os "windows" }}
+.claude/windows-*
+{{ end }}

@@ -1,0 +1,22 @@
+"allow": [
+  "Bash(git *)",
+  "Bash(npm run *)",
+  "Bash(pnpm *)",
+  "Bash(npx *)",
+  "Bash(node *)",
+  "Bash(vitest *)",
+  "Bash(gh pr *)",
+  "Bash(gh issue *)",
+  "Read(~/.zshrc)",
+  "Read(~/.bashrc)",
+  "Read(~/.gitconfig)"
+],
+"deny": [
+  "Read(./.env)",
+  "Read(./.env.*)",
+  "Read(./secrets/**)",
+  "Read(./**/credentials*)",
+  "Bash(rm -rf /)",
+  "Bash(curl * | bash)",
+  "Bash(wget * | bash)"
+]

@@ -1,0 +1,35 @@
+#!/bin/bash
+set -euo pipefail
+
+# ── Git identity ─────────────────────────────────────────────────────────────
+# Ensures git user is configured for commits.
+# Re-runs whenever you change name/email in .chezmoidata.yaml.
+
+{{ if .full_name -}}
+git config --global user.name "{{ .full_name }}"
+{{ end -}}
+
+{{ if .email_personal -}}
+git config --global user.email "{{ .email_personal }}"
+{{ end -}}
+
+# ── Org-scoped git config (conditional include) ─────────────────────────────
+# If you clone jadecli org repos under ~/code/jadecli/*, use org email there.
+{{ if and .email_org .github_org -}}
+mkdir -p "$HOME/code/{{ .github_org }}"
+
+git config --global includeIf."gitdir:~/code/{{ .github_org }}/".path "~/.gitconfig-{{ .github_org }}"
+
+cat > "$HOME/.gitconfig-{{ .github_org }}" <<'ORGEOF'
+[user]
+    email = {{ .email_org }}
+ORGEOF
+{{ end -}}
+
+# ── Sensible git defaults ────────────────────────────────────────────────────
+git config --global init.defaultBranch main
+git config --global pull.rebase true
+git config --global push.autoSetupRemote true
+git config --global rerere.enabled true
+
+echo "Git identity configured."

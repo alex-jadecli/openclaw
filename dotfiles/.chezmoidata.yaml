@@ -1,0 +1,14 @@
+# ── Identity ──────────────────────────────────────────────────────────────────
+github_user: "alex-jadecli"
+github_org: "jadecli"
+full_name: "Alex"
+email_personal: ""
+email_org: ""
+
+# ── Claude Code ──────────────────────────────────────────────────────────────
+claude_model: "claude-opus-4-6"
+claude_output_style: "Explanatory"
+
+# ── Tool versions ────────────────────────────────────────────────────────────
+node_major: "22"
+pnpm_major: "10"
